@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Portfólio de urban sketch em aquarela de Caroline Bernardo Silva, com desenhos de Santa Catarina."
+    />
+    <title>Caroline Bernardo Silva | Urban Sketch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+      (() => {
+        let savedTheme = null;
+
+        try {
+          savedTheme = localStorage.getItem("portfolio-theme");
+        } catch (error) {
+          savedTheme = null;
+        }
+
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        document.documentElement.dataset.theme = savedTheme || (prefersDark ? "dark" : "light");
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="site-header" aria-label="Topo">
+      <a class="brand" href="#inicio" aria-label="Ir para o início">
+        <span class="brand-mark" aria-hidden="true">CBS</span>
+        <span>Caroline Bernardo Silva</span>
+      </a>
+      <div class="header-actions">
+        <nav class="nav-links" aria-label="Navegação principal">
+          <a href="#galeria">Galeria</a>
+          <a href="#sobre">Sobre</a>
+        </nav>
+        <button class="theme-toggle" type="button" aria-label="Alternar modo escuro" aria-pressed="false">
+          <span class="theme-toggle-track" aria-hidden="true">
+            <span class="theme-toggle-knob"></span>
+          </span>
+        </button>
+      </div>
+    </header>
+
+    <main id="inicio">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <div class="hero-kicker-row">
+            <p class="eyebrow">Urban sketch / aquarela / observação urbana</p>
+            <span>Santa Catarina em caderno aberto</span>
+          </div>
+          <h1 id="hero-title">
+            Territórios em <span class="script-word">aquarela</span>, linhas e memória urbana.
+          </h1>
+          <p class="hero-text">
+            Um portfólio vivo de fachadas, caminhos e cenas de arquitetura
+            afetiva em Santa Catarina, desenhadas a partir da atenção ao
+            cotidiano e aos lugares.
+          </p>
+        </div>
+
+        <div class="hero-composition" aria-label="Prévia das obras">
+          <div class="hero-rail" id="hero-rail"></div>
+          <a class="round-link" href="#galeria" aria-label="Ver galeria completa">
+            <span>Ver galeria</span>
+          </a>
+        </div>
+
+        <div class="hero-actions">
+          <a class="button primary" href="#galeria">Ver trabalhos</a>
+          <a class="button secondary" href="#sobre">Conhecer o olhar</a>
+        </div>
+
+        <div class="hero-art" aria-label="Obra em destaque">
+          <img id="featured-image" src="data/casa_estreito.jpg" alt="Urban sketch em aquarela" />
+          <div class="art-caption">
+            <span id="featured-title">Casa do Estreito</span>
+            <span>obra em destaque</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="gallery-section" id="galeria" aria-labelledby="gallery-title">
+        <div class="section-heading">
+          <p class="eyebrow">Galeria</p>
+          <h2 id="gallery-title">Uma parede de sketches em movimento suave.</h2>
+          <p>
+            Fachadas, ateliês, casas e recortes urbanos de diferentes cidades
+            catarinenses ganham espaço como pequenas cenas de memória, cor e
+            observação.
+          </p>
+        </div>
+
+        <div class="gallery-toolbar" aria-live="polite">
+          <span id="art-count">0 obras</span>
+          <span>caderno aberto</span>
+        </div>
+
+        <div class="gallery-grid" id="gallery-grid"></div>
+      </section>
+
+      <section class="about-section" id="sobre" aria-labelledby="about-title">
+        <figure class="profile-card">
+          <img src="foto_perfil.jpeg" alt="Retrato de Caroline Bernardo Silva" />
+          <figcaption>Caroline Bernardo Silva</figcaption>
+        </figure>
+        <div class="about-copy">
+          <p class="eyebrow">Sobre mim</p>
+          <h2 id="about-title">Entre território, tecnologia e desenho.</h2>
+          <p>
+            Caroline Bernardo Silva é engenheira civil formada pela UFSC, mestre
+            em Gestão Territorial e doutora em Engenharia do Conhecimento pela
+            mesma universidade. Criada no Carianos e moradora do Balneário do
+            Estreito, sempre gostou de observar a paisagem e as particularidades
+            dos territórios.
+          </p>
+          <p>
+            Apaixonada por tecnologia, encontra no urban sketch uma forma de
+            expressar sensibilidade e presença. Seus desenhos e aquarelas nascem
+            desse encontro: o olhar de quem lê a cidade com atenção e a vontade
+            de tornar público aquilo que enxerga em Santa Catarina.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="lightbox" id="lightbox" aria-label="Visualização da obra">
+      <button class="icon-button close-button" type="button" data-close aria-label="Fechar visualização">
+        ×
+      </button>
+      <button class="icon-button nav-button previous-button" type="button" data-previous aria-label="Imagem anterior">
+        ‹
+      </button>
+      <figure>
+        <img id="lightbox-image" alt="" />
+        <figcaption id="lightbox-title"></figcaption>
+      </figure>
+      <button class="icon-button nav-button next-button" type="button" data-next aria-label="Próxima imagem">
+        ›
+      </button>
+    </dialog>
+
+    <script src="gallery-data.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

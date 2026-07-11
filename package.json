@@ -1,0 +1,10 @@
+{
+  "name": "urban-sketch-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/generate-gallery.mjs",
+    "start": "node scripts/generate-gallery.mjs && python3 -m http.server 4173"
+  }
+}
