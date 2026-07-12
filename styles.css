@@ -506,6 +506,7 @@ h2 {
 }
 
 .gallery-section,
+.fast-section,
 .about-section {
   padding: 82px clamp(18px, 4vw, 56px);
 }
@@ -546,6 +547,20 @@ h2 {
   align-items: start;
 }
 
+.fast-section {
+  overflow: hidden;
+  background:
+    linear-gradient(28deg, color-mix(in srgb, var(--ochre) 14%, transparent), transparent 34%),
+    linear-gradient(154deg, color-mix(in srgb, var(--tile) 10%, transparent), transparent 44%);
+}
+
+.fast-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: clamp(12px, 2vw, 22px);
+  align-items: start;
+}
+
 .art-card {
   position: relative;
   display: grid;
@@ -556,6 +571,92 @@ h2 {
   color: inherit;
   cursor: zoom-in;
   text-align: left;
+}
+
+.fast-card {
+  position: relative;
+  display: grid;
+  grid-column: span 3;
+  gap: 8px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: 22px 16px 28px 18px;
+  background: var(--surface-strong);
+  color: inherit;
+  cursor: zoom-in;
+  text-align: left;
+  box-shadow: 0 16px 42px rgba(86, 35, 22, 0.12);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.fast-card:nth-child(6n + 1) {
+  grid-column: span 4;
+  margin-top: 20px;
+  transform: rotate(-3deg);
+}
+
+.fast-card:nth-child(6n + 2) {
+  grid-column: span 2;
+  transform: rotate(2deg);
+}
+
+.fast-card:nth-child(6n + 3) {
+  grid-column: span 3;
+  margin-top: 46px;
+  transform: rotate(4deg);
+}
+
+.fast-card:nth-child(6n + 4) {
+  grid-column: span 3;
+  transform: rotate(-2deg);
+}
+
+.fast-card:nth-child(6n + 5) {
+  grid-column: span 5;
+  margin-top: -8px;
+  transform: rotate(2deg);
+}
+
+.fast-card:nth-child(6n) {
+  grid-column: span 2;
+  margin-top: 32px;
+  transform: rotate(-4deg);
+}
+
+.fast-card:hover,
+.fast-card:focus-visible {
+  z-index: 3;
+  transform: translateY(-6px) rotate(0deg);
+  box-shadow: 0 24px 64px rgba(86, 35, 22, 0.22);
+}
+
+.fast-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1.15;
+  border-radius: 18px 12px 22px 14px;
+  object-fit: cover;
+}
+
+.fast-card:nth-child(4n + 1) img {
+  aspect-ratio: 4 / 5;
+}
+
+.fast-card:nth-child(4n + 2) img {
+  aspect-ratio: 1;
+}
+
+.fast-card:nth-child(4n + 3) img {
+  aspect-ratio: 5 / 4;
+}
+
+.fast-card-title {
+  overflow-wrap: anywhere;
+  color: var(--muted);
+  font-family: Caveat, cursive;
+  font-size: 1.24rem;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .art-card:nth-child(3n + 1) {
@@ -819,9 +920,18 @@ h2 {
   }
 
   .gallery-section,
+  .fast-section,
   .about-section {
     padding-top: 62px;
     padding-bottom: 62px;
+  }
+
+  .fast-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .fast-card:nth-child(n) {
+    grid-column: span 3;
   }
 }
 
@@ -913,6 +1023,16 @@ h2 {
 
   .art-card:nth-child(n) {
     margin-top: 0;
+  }
+
+  .fast-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fast-card:nth-child(n) {
+    grid-column: auto;
+    margin-top: 0;
+    transform: none;
   }
 
   .hero-art {

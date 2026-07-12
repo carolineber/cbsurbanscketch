@@ -1,16 +1,25 @@
-# Portfolio de Urban Sketch
+# CBS Urban Sketch
 
-Site pessoal em single page para exibir automaticamente as imagens da pasta `data`.
+Site pessoal em single page para o portfolio de urban sketch de Caroline Bernardo Silva.
+
+## Origem das imagens
+
+As imagens do portfolio vêm do Google Drive:
+
+- `trabalhos`: obras mais elaboradas, exibidas como portfolio principal.
+- `fast-scketch`: sketches rápidos, exibidos em uma composição mais espalhada.
+
+O arquivo `drive-gallery.js` guarda os IDs das imagens usadas pelo site.
+Para o GitHub Pages conseguir exibir as imagens, os arquivos ou pastas do Drive precisam estar compartilhados como leitura pública.
 
 ## Como adicionar novas artes
 
-1. Coloque a imagem dentro da pasta `data`.
+1. Faça upload da imagem na pasta correta do Drive.
 2. Use um nome de arquivo descritivo, por exemplo `mercado_publico.jpg`.
-3. Publique no GitHub.
+3. Atualize `drive-gallery.js` com o ID do novo arquivo.
+4. Publique no GitHub.
 
-O título exibido no site vem do nome do arquivo. Exemplo: `mercado_publico.jpg` vira `Mercado Publico`.
-
-No GitHub Pages, a galeria lê a pasta `data` diretamente pelo GitHub API. Assim, uma imagem nova publicada nessa pasta aparece no portfolio sem precisar editar o código.
+O título exibido no site vem do nome indicado no manifesto.
 
 ## Rodar localmente
 

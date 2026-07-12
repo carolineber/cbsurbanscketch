@@ -1,9 +1,11 @@
-const fallbackGallery = Array.isArray(window.PORTFOLIO_GALLERY) ? window.PORTFOLIO_GALLERY : [];
-const githubRepository = "carolineber/cbsurbanscketch";
-const imageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"]);
-const titleOverrides = new Map([["casa_estreito.jpg", "Casa do Estreito"]]);
-const grid = document.querySelector("#gallery-grid");
-const artCount = document.querySelector("#art-count");
+const driveGallery = window.DRIVE_GALLERY || { collections: { trabalhos: [], fastSketch: [] } };
+const works = driveGallery.collections.trabalhos || [];
+const fastSketches = driveGallery.collections.fastSketch || [];
+const heroItems = [...works, ...fastSketches].slice(0, 4);
+const worksGrid = document.querySelector("#works-grid");
+const fastGrid = document.querySelector("#fast-grid");
+const worksCount = document.querySelector("#works-count");
+const fastCount = document.querySelector("#fast-count");
 const heroRail = document.querySelector("#hero-rail");
 const featuredImage = document.querySelector("#featured-image");
 const featuredTitle = document.querySelector("#featured-title");
@@ -15,59 +17,19 @@ const previousButton = document.querySelector("[data-previous]");
 const nextButton = document.querySelector("[data-next]");
 const themeToggle = document.querySelector(".theme-toggle");
 
+let activeCollection = works;
 let activeIndex = 0;
-let gallery = fallbackGallery;
 
-function titleFromFilename(filename) {
-  const withoutExtension = filename.replace(/\.[^.]+$/, "");
+function imageUrl(artwork, size = 1400) {
+  if (artwork.src) {
+    return artwork.src;
+  }
 
-  return withoutExtension
-    .replace(/[-_]+/g, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-    .replace(/\p{L}+/gu, (word) => word.charAt(0).toLocaleUpperCase("pt-BR") + word.slice(1));
+  return `https://drive.google.com/thumbnail?id=${artwork.id}&sz=w${size}`;
 }
 
-async function loadGallery() {
-  if (!window.fetch) {
-    return fallbackGallery;
-  }
-
-  try {
-    const response = await fetch(`https://api.github.com/repos/${githubRepository}/contents/data`, {
-      headers: {
-        Accept: "application/vnd.github+json"
-      }
-    });
-
-    if (!response.ok) {
-      return fallbackGallery;
-    }
-
-    const files = await response.json();
-
-    if (!Array.isArray(files)) {
-      return fallbackGallery;
-    }
-
-    const githubGallery = files
-      .filter((file) => {
-        const extension = file.name.slice(file.name.lastIndexOf(".")).toLowerCase();
-
-        return file.type === "file" && imageExtensions.has(extension);
-      })
-      .map((file) => ({
-        title: titleOverrides.get(file.name) || titleFromFilename(file.name),
-        src: file.download_url,
-        filename: file.name,
-        updatedAt: ""
-      }))
-      .sort((a, b) => a.filename.localeCompare(b.filename, "pt-BR", { sensitivity: "base" }));
-
-    return githubGallery.length ? githubGallery : fallbackGallery;
-  } catch (error) {
-    return fallbackGallery;
-  }
+function pluralize(count, singular, plural) {
+  return count === 1 ? `1 ${singular}` : `${count} ${plural}`;
 }
 
 function getCurrentTheme() {
@@ -83,62 +45,50 @@ function applyTheme(theme) {
   );
 }
 
-function pluralize(count) {
-  return count === 1 ? "1 obra" : `${count} obras`;
+function createArtworkButton(artwork, index, className, collectionName) {
+  const card = document.createElement("button");
+  const image = document.createElement("img");
+  const title = document.createElement("span");
+
+  card.className = className;
+  card.type = "button";
+  card.dataset.index = String(index);
+  card.dataset.collection = collectionName;
+  card.setAttribute("aria-label", `Ampliar ${artwork.title}`);
+
+  image.src = imageUrl(artwork, className === "fast-card" ? 900 : 1400);
+  image.alt = artwork.title;
+  image.loading = index < 4 ? "eager" : "lazy";
+
+  title.className = className === "fast-card" ? "fast-card-title" : "art-card-title";
+  title.textContent = artwork.title;
+
+  card.append(image, title);
+  return card;
 }
 
-function renderGallery() {
-  artCount.textContent = pluralize(gallery.length);
+function renderCollection(grid, artworks, cardClassName, collectionName) {
+  grid.textContent = "";
 
-  if (!gallery.length) {
-    grid.innerHTML = `<p class="empty-state">Adicione imagens na pasta data para começar a galeria.</p>`;
-    heroRail.textContent = "";
+  if (!artworks.length) {
+    const empty = document.createElement("p");
+    empty.className = "empty-state";
+    empty.textContent = "Adicione imagens na pasta do Drive para preencher esta seção.";
+    grid.append(empty);
     return;
   }
 
-  const featured =
-    gallery.find((artwork) => artwork.filename.toLowerCase() === "casa_estreito.jpg") || gallery[0];
-
-  featuredImage.src = featured.src;
-  featuredImage.alt = "Casa do Estreito";
-  featuredTitle.textContent = "Casa do Estreito";
-
-  grid.textContent = "";
-
-  gallery.forEach((artwork, index) => {
-    const card = document.createElement("button");
-    const image = document.createElement("img");
-    const title = document.createElement("span");
-
-    card.className = "art-card";
-    card.type = "button";
-    card.dataset.index = String(index);
-    card.setAttribute("aria-label", `Ampliar ${artwork.title}`);
-
-    image.src = artwork.src;
-    image.alt = artwork.title;
-    image.loading = "lazy";
-
-    title.className = "art-card-title";
-    title.textContent = artwork.title;
-
-    card.append(image, title);
-    grid.append(card);
+  artworks.forEach((artwork, index) => {
+    grid.append(createArtworkButton(artwork, index, cardClassName, collectionName));
   });
 }
 
 function renderHeroRail() {
-  if (!gallery.length) {
-    return;
-  }
-
-  const heroItems = Array.from({ length: Math.min(4, Math.max(3, gallery.length)) }, (_, index) => {
-    return gallery[index % gallery.length];
-  });
+  const previewItems = heroItems.length ? heroItems : works;
 
   heroRail.textContent = "";
 
-  heroItems.forEach((artwork, index) => {
+  previewItems.forEach((artwork, index) => {
     const preview = document.createElement("figure");
     const image = document.createElement("img");
     const caption = document.createElement("figcaption");
@@ -146,7 +96,7 @@ function renderHeroRail() {
     const number = document.createElement("span");
 
     preview.className = "hero-preview";
-    image.src = artwork.src;
+    image.src = imageUrl(artwork, 1200);
     image.alt = artwork.title;
     image.loading = index === 1 ? "eager" : "lazy";
     title.textContent = artwork.title;
@@ -158,11 +108,42 @@ function renderHeroRail() {
   });
 }
 
-function showArtwork(index) {
-  activeIndex = (index + gallery.length) % gallery.length;
-  const artwork = gallery[activeIndex];
+function renderFeatured() {
+  const featured =
+    works.find((artwork) => artwork.id === driveGallery.featuredId) ||
+    works.find((artwork) => artwork.filename === "casa_estreito.jpg") ||
+    works[0] ||
+    fastSketches[0];
 
-  lightboxImage.src = artwork.src;
+  if (!featured) {
+    return;
+  }
+
+  featuredImage.src = imageUrl(featured, 1400);
+  featuredImage.alt = "Casa do Estreito";
+  featuredTitle.textContent = "Casa do Estreito";
+}
+
+function renderGallery() {
+  worksCount.textContent = pluralize(works.length, "trabalho", "trabalhos");
+  fastCount.textContent = pluralize(fastSketches.length, "fast sketch", "fast sketches");
+  renderCollection(worksGrid, works, "art-card", "works");
+  renderCollection(fastGrid, fastSketches, "fast-card", "fast");
+  renderHeroRail();
+  renderFeatured();
+}
+
+function showArtwork(collectionName, index) {
+  activeCollection = collectionName === "fast" ? fastSketches : works;
+
+  if (!activeCollection.length) {
+    return;
+  }
+
+  activeIndex = (index + activeCollection.length) % activeCollection.length;
+  const artwork = activeCollection[activeIndex];
+
+  lightboxImage.src = imageUrl(artwork, 2200);
   lightboxImage.alt = artwork.title;
   lightboxTitle.textContent = artwork.title;
 
@@ -176,21 +157,25 @@ function closeLightbox() {
 }
 
 function showPrevious() {
-  showArtwork(activeIndex - 1);
+  showArtwork(activeCollection === fastSketches ? "fast" : "works", activeIndex - 1);
 }
 
 function showNext() {
-  showArtwork(activeIndex + 1);
+  showArtwork(activeCollection === fastSketches ? "fast" : "works", activeIndex + 1);
 }
 
-async function init() {
-  gallery = await loadGallery();
-  renderGallery();
-  renderHeroRail();
-  applyTheme(getCurrentTheme());
+function handleGridClick(event) {
+  const card = event.target.closest("[data-collection]");
+
+  if (!card) {
+    return;
+  }
+
+  showArtwork(card.dataset.collection, Number(card.dataset.index));
 }
 
-init();
+renderGallery();
+applyTheme(getCurrentTheme());
 
 themeToggle.addEventListener("click", () => {
   const nextTheme = getCurrentTheme() === "dark" ? "light" : "dark";
@@ -204,16 +189,8 @@ themeToggle.addEventListener("click", () => {
   applyTheme(nextTheme);
 });
 
-grid.addEventListener("click", (event) => {
-  const card = event.target.closest(".art-card");
-
-  if (!card) {
-    return;
-  }
-
-  showArtwork(Number(card.dataset.index));
-});
-
+worksGrid.addEventListener("click", handleGridClick);
+fastGrid.addEventListener("click", handleGridClick);
 closeButton.addEventListener("click", closeLightbox);
 previousButton.addEventListener("click", showPrevious);
 nextButton.addEventListener("click", showNext);

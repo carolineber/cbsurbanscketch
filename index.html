@@ -39,7 +39,8 @@
       </a>
       <div class="header-actions">
         <nav class="nav-links" aria-label="Navegação principal">
-          <a href="#galeria">Galeria</a>
+          <a href="#trabalhos">Trabalhos</a>
+          <a href="#fast-sketch">Fast sketch</a>
           <a href="#sobre">Sobre</a>
         </nav>
         <button class="theme-toggle" type="button" aria-label="Alternar modo escuro" aria-pressed="false">
@@ -55,7 +56,7 @@
         <div class="hero-copy">
           <div class="hero-kicker-row">
             <p class="eyebrow">Urban sketch / aquarela / observação urbana</p>
-            <span>Santa Catarina em caderno aberto</span>
+            <span>Trabalhos e fast sketches em caderno aberto</span>
           </div>
           <h1 id="hero-title">
             Territórios em <span class="script-word">aquarela</span>, linhas e memória urbana.
@@ -69,18 +70,23 @@
 
         <div class="hero-composition" aria-label="Prévia das obras">
           <div class="hero-rail" id="hero-rail"></div>
-          <a class="round-link" href="#galeria" aria-label="Ver galeria completa">
+          <a class="round-link" href="#trabalhos" aria-label="Ver galeria completa">
             <span>Ver galeria</span>
           </a>
         </div>
 
         <div class="hero-actions">
-          <a class="button primary" href="#galeria">Ver trabalhos</a>
+          <a class="button primary" href="#trabalhos">Ver trabalhos</a>
+          <a class="button secondary" href="#fast-sketch">Fast sketch</a>
           <a class="button secondary" href="#sobre">Conhecer o olhar</a>
         </div>
 
         <div class="hero-art" aria-label="Obra em destaque">
-          <img id="featured-image" src="data/casa_estreito.jpg" alt="Urban sketch em aquarela" />
+          <img
+            id="featured-image"
+            src="https://drive.google.com/thumbnail?id=1zxjAl4N7YZLq4H0ItkzCChWQHlfWFAes&sz=w1400"
+            alt="Casa do Estreito em aquarela"
+          />
           <div class="art-caption">
             <span id="featured-title">Casa do Estreito</span>
             <span>obra em destaque</span>
@@ -88,23 +94,40 @@
         </div>
       </section>
 
-      <section class="gallery-section" id="galeria" aria-labelledby="gallery-title">
+      <section class="gallery-section" id="trabalhos" aria-labelledby="gallery-title">
         <div class="section-heading">
-          <p class="eyebrow">Galeria</p>
-          <h2 id="gallery-title">Uma parede de sketches em movimento suave.</h2>
+          <p class="eyebrow">Trabalhos</p>
+          <h2 id="gallery-title">Obras com mais tempo, camadas e acabamento.</h2>
           <p>
-            Fachadas, ateliês, casas e recortes urbanos de diferentes cidades
-            catarinenses ganham espaço como pequenas cenas de memória, cor e
-            observação.
+            Aquarelas e urban sketches mais elaborados, reunidos como uma
+            parede principal do portfólio.
           </p>
         </div>
 
         <div class="gallery-toolbar" aria-live="polite">
-          <span id="art-count">0 obras</span>
-          <span>caderno aberto</span>
+          <span id="works-count">0 trabalhos</span>
+          <span>portfólio principal</span>
         </div>
 
-        <div class="gallery-grid" id="gallery-grid"></div>
+        <div class="gallery-grid" id="works-grid"></div>
+      </section>
+
+      <section class="fast-section" id="fast-sketch" aria-labelledby="fast-title">
+        <div class="section-heading">
+          <p class="eyebrow">Fast sketch</p>
+          <h2 id="fast-title">Desenhos rápidos, soltos, quase em movimento.</h2>
+          <p>
+            Estudos de observação e registros feitos no fluxo da rua, expostos
+            de forma mais embaralhada, como páginas espalhadas sobre a mesa.
+          </p>
+        </div>
+
+        <div class="gallery-toolbar" aria-live="polite">
+          <span id="fast-count">0 fast sketches</span>
+          <span>desenhos rápidos</span>
+        </div>
+
+        <div class="fast-grid" id="fast-grid"></div>
       </section>
 
       <section class="about-section" id="sobre" aria-labelledby="about-title">
@@ -148,7 +171,7 @@
       </button>
     </dialog>
 
-    <script src="gallery-data.js"></script>
+    <script src="drive-gallery.js"></script>
     <script src="main.js"></script>
   </body>
 </html>
