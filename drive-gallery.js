@@ -11,6 +11,12 @@ window.DRIVE_GALLERY = {
         title: "Casa do Estreito",
         filename: "casa_estreito.jpg",
         mimeType: "image/jpeg"
+      },
+      {
+        id: "1NhSWK0493YynhI3KR7rF1uYaHmJrVkFB",
+        title: "Garça - Balneário do Estreito",
+        filename: "garça_balneário_do_estreito.HEIC",
+        mimeType: "image/heif"
       }
     ],
     fastSketch: [

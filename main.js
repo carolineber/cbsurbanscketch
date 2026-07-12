@@ -25,7 +25,7 @@ function imageUrl(artwork, size = 1400) {
     return artwork.src;
   }
 
-  return `https://drive.google.com/thumbnail?id=${artwork.id}&sz=w${size}`;
+  return `https://lh3.googleusercontent.com/d/${artwork.id}=w${size}`;
 }
 
 function pluralize(count, singular, plural) {
